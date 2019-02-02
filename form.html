@@ -1,0 +1,197 @@
+<<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>form for resume</title>
+
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="mainDiv">
+    <div class="subDiv">
+      <h1>Career Objective</h1>
+      <select id="career" name="career">
+      <option>select your career objective</option>
+      <option>To utilize my knowledge for growth of organization</option>
+      <option>To secure a challenging position in a reputable organization</option>
+      </select>
+    </div>
+      <!--personal information-->
+      <div class="subDiv1">
+        <h1>Personal Information</h1>
+        <input type="text" name="name" id="name" placeholder="Enter your name">
+        <input type="number" name="phone" id="phone" placeholder="Enter your phone number">
+        <input type="text" name="email" id="email" placeholder="Enter your email">
+      </div>
+      <!--educational details-->
+      <div class="subDiv1">
+        <h1>Graduation details</h1>
+         <label for="gbranch">
+           <select id="gbranch" name="gbranch">
+             <option>Select your branch</option>
+             <option>B.Tech(Cse)</option>
+             <option>B.Tech(Mech)</option>
+             <option>B.Tech(It)</option>
+             <option>B.Tech(Ece)</option>
+             <option>B.Tech(Eee)</option>
+           </select>
+         </label>
+         <label for="ginst">
+           <input type="text" name="ginst" id="ginst" placeholder="Enter your college name">
+         </label>
+         <label for="gper">
+           <input type="number" name="gper" id="gper" place placeholder="Enter your percentage">
+         </label>
+         <label for="gyop">
+           <input type="number" name="gyop" id="gyop" placeholder="Enter your year of passing">
+         </label>
+      </div>
+      <!--intermediate details-->
+      <div class="subDiv1">
+        <h1>intermediate details</h1>
+         <label for="ibranch">
+           <select id="ibranch" name="ibranch">
+             <option>Select your branch</option>
+             <option>Intermediate(m.p.c)</option>
+             <option>Intermediate(bi.p.c)</option>
+             <option>Intermediate(c.e.c)</option>
+             <option>Intermediate(m.e.c)</option>
+             </select>
+             </label>
+             <label for="iinst">
+               <input type="text" name="iinst" id="iinst" placeholder="Enter your college name">
+             </label>
+             <label for="iper">
+               <input type="number" name="iper" id="iper" place placeholder="Enter your percentage">
+             </label>
+             <label for="iyop">
+               <input type="number" name="iyop" id="iyop" placeholder="Enter your year of passing">
+             </label>
+        </div>
+        <!--school details-->
+        <div class="subDiv1">
+          <h1>school details</h1>
+           <label for="scourse">
+             <select id="scourse" name="scourse">
+               <option>Select your course</option>
+               <option>ssc</option>
+               <option>cbse</option>
+               </select>
+               </label>
+               <label for="sname">
+                 <input type="text" name="sname" id="sname" placeholder="Enter your school name">
+               </label>
+               <label for="sper">
+                 <input type="number" name="sper" id="sper" place placeholder="Enter your percentage">
+               </label>
+               <label for="Iyop">
+                 <input type="number" name="syop" id="syop" placeholder="Enter your year of passing">
+               </label>
+    </div>
+    <!--achievements-->
+  </div>
+  <div class="subDiv1">
+  <h1>achievements</h1>
+  <input type="text" name="ache" id="ache">
+</label>
+<label for="ache1">
+<input type="text" name="ache1" id="ache1">
+</label>
+<label for="ache2">
+<input type="text" name="ache2" id="ache2">
+</label>
+</div>
+<button type="button" name="button" onclick="submitData()">submit</button>
+  </body>
+</html>
+<!--java script-->
+<script type="text/javascript">
+function submitData(){
+  var career=document.getElementById("career").value;
+  var name=document.getElementById("name").value;
+  var phone=document.getElementById("phone").value;
+  var email=document.getElementById("email").value;
+
+  var gbranch=document.getElementById("gbranch").value;
+  var ginst=document.getElementById("ginst").value;
+  var gper=document.getElementById("gper").value;
+  var gyop=document.getElementById("gyop").value;
+
+  var ibranch=document.getElementById("ibranch").value;
+  var iinst=document.getElementById("iinst").value;
+  var iper=document.getElementById("iper").value;
+  var iyop=document.getElementById("iyop").value;
+
+  var scourse=document.getElementById("scourse").value;
+  var sname=document.getElementById("sname").value;
+  var sper=document.getElementById("sper").value;
+  var syop=document.getElementById("syop").value;
+
+  var ache=document.getElementById('ache').value;
+  var ache1=document.getElementById('ache1').value;
+var ache2=document.getElementById('ache2').value;
+
+var sietk;
+var result;
+var store;
+var tx;
+  var indexedDB=window.indexedDB ||window.mozIndexedDB ||  window.webkitIndexedDB ||window.msIndexedDB;
+  // db creation
+  sietk=indexedDB.open("mydb",1);
+  sietk.onerror=function(e){
+    console.log("error"+e);
+  }
+  sietk.onupgradeneeded=function(e){
+    result=e.target.result;
+    store=result.createObjectStore("resume",{keyPath:"name"});
+  }
+  sietk.onsuccess=function(e){
+    result=e.target.result;
+    tx=result.transaction("resume",'readwrite');
+    store=tx.objectStore("resume");
+    store.put({
+      career:career,
+      name:name,
+      phone:phone,
+      email:email,
+      education:[
+        {
+          course:gbranch,
+          institute:ginst,
+          percentage:gper,
+          yearofpassing:gyop
+        },
+        {
+          course:ibranch,
+          institute:iinst,
+          percentage:iper,
+          yearofpassing:iyop
+        },
+        {
+          course:scourse,
+          institute:sname,
+          percentage:sper,
+          yearofpassing:syop
+        }
+      ],
+      achievements:[
+        {
+          achieve:ache
+        },
+        {
+          achieve:ache1
+        },
+        {
+          achieve:ache2
+        }
+
+      ]
+    });
+    window.alert("data submitted");
+    window.open("index.html");
+  }
+
+}
+
+</script>

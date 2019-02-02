@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Resume</title>
+  </head>
+  <body>
+    <div class="main">
+      <div class="left">
+
+      </div>
+      <div class="right">
+
+      </div>
+    </div>
+  </body>
+</html>
+<script type="text/javascript">
+  var userdata=window.location.search.substring(1).split('&');
+  for (var i = 0; i <userdata.length; i++) {
+       var d=userdata[i].split('=');
+       console.log(d);
+  }
+  //indexed db
+  var sietk;
+  var result;
+  var store;
+  var tx;
+    var indexedDB=window.indexedDB ||window.mozIndexedDB ||  window.webkitIndexedDB ||window.msIndexedDB;
+    // db creation
+    sietk=indexedDB.open("mydb",1);
+    sietk.onerror=function(e){
+      console.log("error"+e);
+    }
+    sietk.onupgradeneeded=function(e){
+      result=e.target.result;
+      store=result.createObjectStore("resume",{keyPath:"name"});
+    }
+   sietk.onsuccess=(e)=>{
+     result=e.target.result;
+     tx=result.transaction("resume",'readwrite');
+     store=tx.objectStore("resume");
+//getting data by using get() method
+  var uinfo=store.get(d[1]);
+  uinfo.onsuccess=(e)=>{
+    var endresult=e.target.result;
+    console.log(endresult);
+  //  functions callback
+  personaldata(endresult);
+  ed(endresult.education);
+  achieve(endresult.achievements);
+  }
+
+var left=document.querySelector('.left');
+var right=document.querySelector('.right');
+function personaldata(CSE){
+var image=document.createElement("img");
+image.src="profile2.png";
+image.alt=CSE.name;
+left.append(image);
+
+var name=document.createElement("h1");
+name.textContent=CSE.name;
+left.append(name);
+
+var phone=document.createElement("h1");
+phone.textContent=CSE.phone;
+left.append(phone);
+
+var email=document.createElement("p");
+email.textContent=CSE.email;
+left.append(email);
+
+var heading=document.createElement('h2');
+heading.textContent="Career Objective";
+right.append(heading);
+right.append(document.createElement("hr"));
+var carr=document.createElement('p');
+carr.textContent=CSE.career;
+right.append(carr);
+}
+function ed(MCA){
+
+  var heading=document.createElement('h2');
+  heading.textContent="Educational Details";
+  right.append(heading);
+  right.append(document.createElement("hr"));
+
+  var ul=document.createElement("ul");
+  right.append(ul);
+  for (var i in MCA) {
+    var course=document.createElement("li");
+    course.textContent=MCA[i].course;
+    ul.append(course);
+
+    var inst=document.createElement("p");
+    inst.textContent=MCA[i].institute;
+    ul.append(inst);
+
+    var per=document.createElement("p");
+    per.textContent=MCA[i].percentage;
+    ul.append(per);
+
+    var yop=document.createElement("p");
+    yop.textContent=MCA[i].yearofpassing;
+    ul.append(yop);
+
+  }
+}
+  // Reg achievements
+  function achieve(keerthi){
+    var heading=document.createElement('h2');
+    heading.textContent="Achievements";
+    right.append(heading);
+    right.append(document.createElement("hr"));
+
+      var ul=document.createElement("ul");
+      right.append(ul);
+      for (var i in keerthi) {
+        var ach=document.createElement("li");
+        ach.textContent=keerthi[i].achieve;
+        ul.append(ach);
+      }
+  }
+}
+</script>
